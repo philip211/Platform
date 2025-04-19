@@ -34,7 +34,7 @@ model Room {
   inviteCode String?    @unique
 
   owner   User         @relation("OwnerRooms", fields: [ownerId], references: [id])
-  players GamePlayer[] @relation("RoomPlayers") // связываем с GamePlayer.room
+  players GamePlayer[] @relation("RoomPlayers")
   game    Game?
 }
 
