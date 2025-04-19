@@ -1,4 +1,5 @@
 export class AutoJoinDto {
   roomId: string;
-  playerName: string;
+  telegramId: string;
+  name: string;
 }
