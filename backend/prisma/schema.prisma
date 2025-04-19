@@ -1,0 +1,101 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id         String   @id @default(cuid())
+  telegramId String   @unique
+  username   String?
+  firstName  String
+  lastName   String?
+  photoUrl   String?
+  isPremium  Boolean  @default(false)
+  coins      Int      @default(0)
+  stars      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  games      GamePlayer[]
+  ownedRooms Room[]       @relation("OwnerRooms")
+  boosts     UserBoost[]
+}
+
+model Room {
+  id         String     @id @default(cuid())
+  name       String
+  status     RoomStatus @default(WAITING)
+  ownerId    String
+  createdAt  DateTime   @default(now())
+  inviteCode String?    @unique
+
+  owner   User         @relation("OwnerRooms", fields: [ownerId], references: [id])
+  players GamePlayer[] @relation("RoomPlayers") // связываем с GamePlayer.room
+  game    Game?
+}
+
+model Game {
+  id        String    @id @default(cuid())
+  roomId    String    @unique
+  startedAt DateTime?
+  endedAt   DateTime?
+
+  room    Room         @relation(fields: [roomId], references: [id])
+  players GamePlayer[]
+  logs    GameLog[]
+}
+
+model GamePlayer {
+  id     String  @id @default(cuid())
+  userId String
+  gameId String
+  roomId String?
+
+  role    String
+  isAlive Boolean @default(true)
+
+  user User  @relation(fields: [userId], references: [id])
+  game Game  @relation(fields: [gameId], references: [id])
+  room Room? @relation("RoomPlayers", fields: [roomId], references: [id])
+}
+
+model GameLog {
+  id        String   @id @default(cuid())
+  gameId    String
+  type      String
+  payload   Json
+  createdAt DateTime @default(now())
+
+  game Game @relation(fields: [gameId], references: [id])
+}
+
+model Boost {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Int
+  type        String
+  createdAt   DateTime @default(now())
+
+  userBoosts UserBoost[]
+}
+
+model UserBoost {
+  id      String  @id @default(cuid())
+  userId  String
+  boostId String
+  isUsed  Boolean @default(false)
+
+  user  User  @relation(fields: [userId], references: [id])
+  boost Boost @relation(fields: [boostId], references: [id])
+}
+
+enum RoomStatus {
+  WAITING
+  ACTIVE
+  FINISHED
+}

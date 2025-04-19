@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: mafia-chicago-api
+    env: node
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://mafia-chicago-game.surge.sh
+      - key: ALLOWED_ORIGINS
+        value: https://mafia-chicago-game.surge.sh,https://t.me
+    healthCheckPath: /api/health
+    autoDeploy: false
+
+databases:
+  - name: mafia-chicago-db
+    plan: free
+    databaseName: mafia_chicago
+    user: mafia_chicago_user

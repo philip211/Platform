@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Telegram Game Platform</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Mock Telegram WebApp for testing outside of Telegram -->
+    <script>
+      // Create mock immediately to ensure it's available before React mounts
+      console.log("Initializing mock Telegram WebApp for testing");
+      
+      // Define the mock object with the correct structure
+      window.Telegram = {
+        WebApp: {
+          initData: "mock_init_data",
+          initDataUnsafe: {
+            query_id: "mock_query_id",
+            user: {
+              id: 123456789,
+              first_name: "Test",
+              last_name: "User",
+              username: "testuser",
+              language_code: "en"
+            },
+            auth_date: Date.now(),
+            hash: "mock_hash"
+          },
+          version: "6.0",
+          platform: "web",
+          colorScheme: "dark",
+          themeParams: {
+            bg_color: "#1c1c1c",
+            text_color: "#ffffff",
+            hint_color: "#999999",
+            link_color: "#2481cc",
+            button_color: "#2481cc",
+            button_text_color: "#ffffff",
+            secondary_bg_color: "#2b2b2b"
+          },
+          isExpanded: true,
+          viewportHeight: window.innerHeight,
+          viewportStableHeight: window.innerHeight,
+          headerColor: "#1c1c1c",
+          backgroundColor: "#1c1c1c",
+          isClosingConfirmationEnabled: false,
+          expand: function() { console.log("WebApp expanded"); },
+          close: function() { console.log("WebApp closed"); },
+          sendData: function(data) { console.log("WebApp sent data:", data); },
+          ready: function() { console.log("WebApp ready"); },
+          HapticFeedback: {
+            impactOccurred: function(style) { console.log("Haptic impact:", style); },
+            notificationOccurred: function(type) { console.log("Haptic notification:", type); },
+            selectionChanged: function() { console.log("Haptic selection changed"); }
+          }
+        }
+      };
+      
+      // Call ready to simulate initialization
+      window.Telegram.WebApp.ready();
+    </script>
+    <!-- Optional CSP -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;"> -->
+    <!-- <link rel="icon" href="/favicon.svg" /> -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

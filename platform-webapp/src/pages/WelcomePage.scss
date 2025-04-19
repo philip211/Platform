@@ -1,0 +1,94 @@
+// src/styles/pages/welcome.scss
+@import "../styles/variables";
+
+.welcome-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #111 0%, #0d0d0d 100%);
+  color: #fff;
+  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-card {
+  text-align: center;
+  padding: 36px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  backdrop-filter: blur(24px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  max-width: 340px;
+  width: 100%;
+  animation: cardEnter 1.2s ease-out forwards;
+}
+
+.welcome-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  margin-bottom: 24px;
+  animation: fadeIn 1s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.welcome-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #fff;
+  animation: fadeIn 1s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+.welcome-sub {
+  font-size: 15px;
+  color: #ccc;
+  animation: fadeIn 1s ease-out 0.6s forwards;
+  opacity: 0;
+}
+
+.welcome-loading,
+.welcome-error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #111;
+  color: #fff;
+  text-align: center;
+  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes cardEnter {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

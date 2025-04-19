@@ -1,0 +1,131 @@
+-- Add Mafia Chicago game models to the schema
+
+-- Game model for Mafia Chicago
+model MafiaChicagoGame {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  startedAt DateTime?
+  endedAt   DateTime?
+  status    GameStatus @default(WAITING)
+  
+  players   MafiaChicagoPlayer[]
+  actions   MafiaChicagoAction[]
+  votes     MafiaChicagoVote[]
+  gifts     MafiaChicagoGift[]
+  messages  MafiaChicagoMessage[]
+  locations MafiaChicagoLocation[]
+}
+
+-- Player model for Mafia Chicago
+model MafiaChicagoPlayer {
+  id        String   @id @default(cuid())
+  gameId    String
+  userId    String
+  role      String
+  isAlive   Boolean  @default(true)
+  isShadow  Boolean  @default(false)
+  canAct    Boolean  @default(true)
+  skipNextTurn Boolean @default(false)
+  
+  game      MafiaChicagoGame @relation(fields: [gameId], references: [id])
+  user      User            @relation(fields: [userId], references: [id])
+  
+  // Actions performed by this player
+  actionsPerformed MafiaChicagoAction[] @relation("ActionPerformer")
+  
+  // Actions targeting this player
+  actionsReceived  MafiaChicagoAction[] @relation("ActionTarget")
+  
+  // Votes cast by this player
+  votesCast        MafiaChicagoVote[]   @relation("VoteCaster")
+  
+  // Votes received by this player
+  votesReceived    MafiaChicagoVote[]   @relation("VoteTarget")
+  
+  // Gifts sent by this player
+  giftsSent        MafiaChicagoGift[]   @relation("GiftSender")
+  
+  // Gifts received by this player
+  giftsReceived    MafiaChicagoGift[]   @relation("GiftReceiver")
+  
+  // Current location
+  locationId       String?
+  location         MafiaChicagoLocation? @relation(fields: [locationId], references: [id])
+}
+
+-- Action model for Mafia Chicago
+model MafiaChicagoAction {
+  id          String   @id @default(cuid())
+  gameId      String
+  performerId String
+  targetId    String?
+  type        String   // KILL, HEAL, ARREST
+  round       Int
+  successful  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  
+  game        MafiaChicagoGame    @relation(fields: [gameId], references: [id])
+  performer   MafiaChicagoPlayer  @relation("ActionPerformer", fields: [performerId], references: [id])
+  target      MafiaChicagoPlayer? @relation("ActionTarget", fields: [targetId], references: [id])
+}
+
+-- Vote model for Mafia Chicago
+model MafiaChicagoVote {
+  id        String   @id @default(cuid())
+  gameId    String
+  casterId  String
+  targetId  String?  // Null means abstain
+  round     Int
+  createdAt DateTime @default(now())
+  
+  game      MafiaChicagoGame    @relation(fields: [gameId], references: [id])
+  caster    MafiaChicagoPlayer  @relation("VoteCaster", fields: [casterId], references: [id])
+  target    MafiaChicagoPlayer? @relation("VoteTarget", fields: [targetId], references: [id])
+}
+
+-- Gift model for Mafia Chicago
+model MafiaChicagoGift {
+  id        String   @id @default(cuid())
+  gameId    String
+  senderId  String
+  receiverId String
+  type      String   // CIGAR, WHISKEY, KISS, ROSE, HARMONICA, BULLET
+  round     Int
+  createdAt DateTime @default(now())
+  
+  game      MafiaChicagoGame   @relation(fields: [gameId], references: [id])
+  sender    MafiaChicagoPlayer @relation("GiftSender", fields: [senderId], references: [id])
+  receiver  MafiaChicagoPlayer @relation("GiftReceiver", fields: [receiverId], references: [id])
+}
+
+-- Message model for Mafia Chicago
+model MafiaChicagoMessage {
+  id        String   @id @default(cuid())
+  gameId    String
+  text      String
+  type      String   // SYSTEM, GIFT, ACTION
+  round     Int
+  createdAt DateTime @default(now())
+  
+  game      MafiaChicagoGame @relation(fields: [gameId], references: [id])
+}
+
+-- Location model for Mafia Chicago
+model MafiaChicagoLocation {
+  id          String   @id @default(cuid())
+  gameId      String
+  name        String
+  isOpen      Boolean  @default(true)
+  murderCount Int      @default(0)
+  
+  game        MafiaChicagoGame     @relation(fields: [gameId], references: [id])
+  players     MafiaChicagoPlayer[]
+}
+
+-- Add GameStatus enum if not exists
+enum GameStatus {
+  WAITING
+  ACTIVE
+  FINISHED
+}

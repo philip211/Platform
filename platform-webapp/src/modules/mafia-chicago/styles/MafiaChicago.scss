@@ -1,0 +1,137 @@
+// src/modules/mafia-chicago/styles/MafiaChicago.scss
+
+.mafia-chicago {
+  width: 100%;
+  min-height: 100vh;
+  padding: 1rem;
+  color: #e0e0e0;
+  background-color: #121212;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url('/src/modules/mafia-chicago/assets/chicago-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-family: 'Georgia', serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #f8d568; // Gold color for vintage feel
+  }
+
+  &__description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    line-height: 1.5;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Glass-like button style
+.mafia-btn {
+  background: rgba(60, 60, 60, 0.4);
+  color: #f8d568;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  &:hover {
+    background: rgba(80, 80, 80, 0.6);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+// Modal styles
+.mafia-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+  
+  &__content {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    background: rgba(30, 30, 30, 0.9);
+    border-radius: 12px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    color: #e0e0e0;
+  }
+  
+  &__title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #f8d568;
+    text-align: center;
+    font-family: 'Georgia', serif;
+  }
+  
+  &__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #e0e0e0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    
+    &:hover {
+      color: #f8d568;
+    }
+  }
+}

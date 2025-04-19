@@ -1,0 +1,26 @@
+{
+  "name": "telegram-bot",
+  "version": "1.0.0",
+  "description": "Telegram Bot for launching WebApp",
+  "main": "bot.ts",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "ts-node bot.ts",
+    "build": "tsc",
+    "start": "node dist/bot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "node-telegram-bot-api": "^0.66.0",
+    "telegram-bot": "file:"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/node-telegram-bot-api": "^0.64.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

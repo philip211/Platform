@@ -1,0 +1,9 @@
+// src/styles/_mixins.scss
+
+@mixin glass($blur: 20px, $color: rgba(255, 255, 255, 0.08)) {
+    background: $color;
+    backdrop-filter: blur($blur);
+    box-shadow: $shadow-soft;
+    border-radius: $radius;
+  }
+  
